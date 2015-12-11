@@ -95,7 +95,7 @@ object Test {
     def purchaseOrderRecieved {
       println("Please under the purchase order ID")
       var ID = scala.io.StdIn.readLine()
-      PurchaseOrderList.recievedOrder(ID.toInt)
+      PurchaseOrderList.receivedOrder(ID.toInt)
     }
     
     def checkRecievedPurchaseOrders {
