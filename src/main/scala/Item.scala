@@ -31,10 +31,12 @@ object StockList {
   Items = newItems
   }
   
-  def printNames {
+  def printNames : String = {
+    var itemNames = ""
     for(item <- Items) {
-      println(item.name)
+      itemNames += item.name.toString
     }
+    itemNames
   }
   
   def findItemByID (ID : Int) : Item = {

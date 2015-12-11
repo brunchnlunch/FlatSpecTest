@@ -11,7 +11,7 @@ object Test {
 
     do {
       exit = true
-      println("The next purchase order to arrive is order " + PurchaseOrderList.findNextPurchaseOrder.toString + ", it will arrive at: " + PurchaseOrderList.findOrderByID(PurchaseOrderList.findNextPurchaseOrder).dateExpected.toString)
+      println(PurchaseOrderList.nextPurchaseOrderNotification)
       println()
       println("Please select what you'd like to do from below: ")
       println("(1): Be assigned a new order")
@@ -71,7 +71,7 @@ object Test {
     def viewOrders {
       println("please enter an order number")
       var orderNumber = scala.io.StdIn.readLine()
-      OrderList.printOrder(orderNumber.toInt)
+      println(OrderList.printOrder(orderNumber.toInt))
     }
     
     def viewItemLocation {
@@ -82,13 +82,9 @@ object Test {
     }
     
     def findBox {
-      var boxVolume = 0
       println("Please enter the order number")
       var orderNumber = scala.io.StdIn.readLine()
-      var order = OrderList.findOrderByID(orderNumber.toInt)
-      for (a <- order.items.keys) {
-        boxVolume += (StockList.findItemByID(a).volume * order.items(a))
-      }
+      var boxVolume = OrderList.findBoxSize(orderNumber.toInt)
       println("Required box volume is " + boxVolume.toString)
     }
     
@@ -105,7 +101,7 @@ object Test {
     def checkRecievedPurchaseOrders {
       println("Please enter the purchase order ID")
       var ID = scala.io.StdIn.readLine()
-      PurchaseOrderList.printPurchaseOrder(ID.toInt)
+      println(PurchaseOrderList.printPurchaseOrder(ID.toInt))
     }
     
     def completedOrder {
@@ -117,9 +113,8 @@ object Test {
     def printDeliveryLabel {
       println("Please enter Order ID")
       var ID = scala.io.StdIn.readLine()
-      var customerAddress = OrderList.findOrderByID(ID.toInt).customerAddress
       println("Customer Address is:")
-      println(customerAddress)
+      println(OrderList.printDeliveryLabel(ID.toInt))
     }
     
     def clockingInOut {

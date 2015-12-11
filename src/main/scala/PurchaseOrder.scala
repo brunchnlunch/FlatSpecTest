@@ -18,7 +18,7 @@ object PurchaseOrderList {
     order
   }
   
-  def recievedOrder (ID : Int) {
+  def receivedOrder (ID : Int) {
     var newOrders = Set.empty[PurchaseOrder]
     for (a <- purchaseOrders) {
       if (a.ID != ID) {
@@ -30,24 +30,17 @@ object PurchaseOrderList {
     purchaseOrders = newOrders
   }
   
-  def printPurchaseOrder (ID : Int){
+  def printPurchaseOrder (ID : Int) : String ={
+    var orderString = ""
     var order = PurchaseOrderList.findOrderByID(ID)
-    println("ID" + ID.toString)
-    println("Items:")
+    orderString += "ID " + ID.toString + "\nItems:\n"
     for (a <- order.items.keys) {
-      print(a)
-      print("   ")
-      print(StockList.findItemByID(a).name)
-      print("   x   ")
-      print(order.items(a)(0).toInt)
-      print("   £")
-      print(order.items(a)(1))
-      println(" per item")
+      var extra = ""
+      extra += a.toString + "   " + StockList.findItemByID(a).name.toString + "   x   " + order.items(a)(0).toInt.toString + "   £" + order.items(a)(1).toString + "per item\n"
+      orderString += extra
     }
-    println("Date order was placed: " + order.datePlaced.toString)
-    println("Date order is expected: " + order.dateExpected.toString)
-    println("Order received? " + order.received.toString)
-    println("Supplier: " + order.supplier.toString)
+    orderString += "Date order was placed: " + order.datePlaced.toString + "\nDate order is expected: " + order.dateExpected.toString + "\nOrder received? " + order.received.toString + "\nSupplier: " + order.supplier.toString
+    orderString
   }
   
   def findNextPurchaseOrder : Int = {
@@ -67,4 +60,13 @@ object PurchaseOrderList {
     }
     closestDateID
   }
+  
+  def nextPurchaseOrderNotification : String = {
+    var orderNotification = "The next purchase order to arrive is order "
+    orderNotification += PurchaseOrderList.findNextPurchaseOrder.toString
+    orderNotification += ", it will arrive at: "
+    orderNotification += PurchaseOrderList.findOrderByID(PurchaseOrderList.findNextPurchaseOrder).dateExpected.toString
+    orderNotification
+  }
+  
 }
